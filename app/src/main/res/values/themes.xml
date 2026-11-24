@@ -1,3 +1,9 @@
-<resources>
-    <style name="Theme.MyLife" parent="Theme.Material3.DayNight.NoActionBar"/>
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.MyLife" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/emerald_primary</item>
+        <item name="colorPrimaryContainer">@color/emerald_container</item>
+        <item name="colorSecondary">@color/emerald_secondary</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
+    </style>
 </resources>
