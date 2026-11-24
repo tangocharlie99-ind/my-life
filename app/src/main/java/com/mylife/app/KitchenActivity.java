@@ -4,10 +4,10 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
-import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
-public class KitchenActivity extends AppCompatActivity {
+public class KitchenActivity extends BaseActivity {
+    @Override protected int navId() { return R.id.nav_kitchen; }
     private static final long DAY = 24L * 3600 * 1000;
     private EditText name, qty, unit, thr, days; private Spinner cat; private ListView stock, grocery;
     private List<Item> stockItems = new ArrayList<>(), groceryItems = new ArrayList<>();

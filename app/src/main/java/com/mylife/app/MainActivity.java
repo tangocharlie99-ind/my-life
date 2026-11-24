@@ -5,13 +5,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
+    @Override protected int navId() { return R.id.nav_journal; }
     private EditText input; private ListView list; private TextView summary;
     private final AIManager ai = new AIManager();
     @Override protected void onCreate(Bundle b) {

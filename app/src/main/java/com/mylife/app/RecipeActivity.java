@@ -3,11 +3,11 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-public class RecipeActivity extends AppCompatActivity {
+public class RecipeActivity extends BaseActivity {
+    @Override protected int navId() { return R.id.nav_recipes; }
     // name | ingredients | kcal per serving | steps
     private static final String[] DATA = {
         "Egg Bhurji|egg,onion,tomato|220|Chop onion and tomato, saute, add beaten eggs and scramble with salt and chilli.",
