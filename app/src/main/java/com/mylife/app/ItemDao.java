@@ -8,5 +8,6 @@ public interface ItemDao {
     @Insert long insert(Item i);
     @Query("SELECT * FROM Item ORDER BY category, name") List<Item> all();
     @Query("UPDATE Item SET qty = :q, expiry = 0 WHERE id = :id") void restock(long id, double q);
+    @Query("UPDATE Item SET qty = MAX(qty - 1, 0) WHERE id = :id") void use(long id);
     @Query("DELETE FROM Item WHERE id = :id") void delete(long id);
 }

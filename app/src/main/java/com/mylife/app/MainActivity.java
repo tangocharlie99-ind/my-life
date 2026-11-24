@@ -1,50 +1,47 @@
 package com.mylife.app;
-
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.mylife.app.ui.GoalsFragment;
-import com.mylife.app.ui.HomeFragment;
-import com.mylife.app.ui.InsightsFragment;
-import com.mylife.app.ui.JournalFragment;
-import com.mylife.app.ui.KitchenFragment;
-
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    private EditText input; private ListView list; private TextView summary;
+    private final AIManager ai = new AIManager();
+    @Override protected void onCreate(Bundle b) {
+        super.onCreate(b);
         setContentView(R.layout.activity_main);
-
-        if (Build.VERSION.SDK_INT >= 33 &&
-                checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)
-                        != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 100);
-        }
-
-        BottomNavigationView nav = findViewById(R.id.bottom_nav);
-        nav.setOnItemSelectedListener(item -> {
-            Fragment f;
-            int id = item.getItemId();
-            if (id == R.id.nav_home) f = new HomeFragment();
-            else if (id == R.id.nav_journal) f = new JournalFragment();
-            else if (id == R.id.nav_kitchen) f = new KitchenFragment();
-            else if (id == R.id.nav_goals) f = new GoalsFragment();
-            else f = new InsightsFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, f)
-                    .commit();
-            return true;
+        input = findViewById(R.id.input); list = findViewById(R.id.list); summary = findViewById(R.id.summary);
+        Button save = findViewById(R.id.save);
+        save.setOnClickListener(v -> {
+            String s = input.getText().toString().trim();
+            if (s.isEmpty()) return;
+            for (Entry e : ai.parse(s)) AppDb.get(this).dao().insert(e);
+            input.setText("");
+            refresh();
         });
-
-        if (savedInstanceState == null) {
-            nav.setSelectedItemId(R.id.nav_home);
+        findViewById(R.id.openKitchen).setOnClickListener(v -> startActivity(new android.content.Intent(this, KitchenActivity.class)));
+        findViewById(R.id.openRecipes).setOnClickListener(v -> startActivity(new android.content.Intent(this, RecipeActivity.class)));
+        refresh();
+    }
+    @Override protected void onResume() { super.onResume(); refresh(); }
+    private void refresh() {
+        List<Entry> all = AppDb.get(this).dao().all();
+        SimpleDateFormat f = new SimpleDateFormat("dd MMM HH:mm", Locale.getDefault());
+        List<String> rows = new ArrayList<>();
+        int kcal = 0; long today = System.currentTimeMillis() - 24L * 3600 * 1000;
+        for (Entry e : all) {
+            String unit = e.type.equals("Diet") ? " kcal" : e.type.equals("Fitness") || e.type.equals("Study") ? " min" : "";
+            rows.add(f.format(new Date(e.time)) + "  [" + e.type + "] " + e.text + (e.value > 0 ? " (" + e.value + unit + ")" : ""));
+            if (e.type.equals("Diet") && e.time > today) kcal += e.value;
         }
+        summary.setText("Calories (last 24h): " + kcal);
+        list.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, rows));
     }
 }
