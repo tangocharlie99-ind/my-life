@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:padding="16dp">
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Kitchen &amp; Fridge" android:textSize="22sp"/>
+    <EditText android:id="@+id/name" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Item name (e.g. Milk)"/>
+    <Spinner android:id="@+id/cat" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+        <EditText android:id="@+id/qty" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="Qty" android:inputType="numberDecimal"/>
+        <EditText android:id="@+id/unit" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="Unit"/>
+        <EditText android:id="@+id/thr" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="Low at" android:inputType="numberDecimal"/>
+        <EditText android:id="@+id/days" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="Exp. days" android:inputType="number"/>
+    </LinearLayout>
+    <Button android:id="@+id/add" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Add item"/>
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="In stock (tap to delete)" android:paddingTop="8dp"/>
+    <ListView android:id="@+id/stock" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"/>
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Smart grocery list (tap to restock)"/>
+    <ListView android:id="@+id/grocery" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"/>
+</LinearLayout>

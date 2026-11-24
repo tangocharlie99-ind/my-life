@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
             input.setText("");
             refresh();
         });
+        findViewById(R.id.openKitchen).setOnClickListener(v -> startActivity(new android.content.Intent(this, KitchenActivity.class)));
         refresh();
     }
     private void refresh() {
